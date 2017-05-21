@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="main">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="node_modules/angular-motion/dist/angular-motion.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-additions/dist/bootstrap-additions.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-editable/css/bootstrap-editable.css">
+    <link rel="stylesheet" href="dist/css/angular-strap-extension.css">
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .tab-content.hide {
+            display: none;
+        }
+
+        .box {
+            width: 300px;
+            height: 300px;
+            background: black;
+            display: flex;
+            flex-wrap: wrap;
+            /*flex-direction: column;*/
+            justify-content: flex-end;
+            align-content: space-between;
+            /*align-items: center;*/
+        }
+
+        .item {
+            /*display: flex;*/
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background: green;
+
+        }
+
+        .item2 {
+            /*display: flex;*/
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background: yellow;
+        }
+
+        body, html {
+            height: 100%;
+        }
+
+        .show-buttons button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div ng-controller="testController" style="padding:50px;" class="container-fluid">
+    <h1>kkAngularStrap</h1>
+    <hr>
+    <div class="form-group">
+        <h3>Tooltip</h3>
+        <div style="display: flex;justify-content: flex-start;align-content: center;flex-direction: row;"
+             class="show-buttons">
+            <button class="btn btn-default" kk-tooltip data-trigger="hover" data-placement="right"
+                    data-title="{{title}}">right
+            </button>
+            <button class="btn btn-default" kk-tooltip data-trigger="hover" data-placement="left"
+                    data-title="{{title}}">left
+            </button>
+            <button class="btn btn-default" kk-tooltip data-trigger="hover" data-placement="top" data-title="{{title}}">
+                top
+            </button>
+            <button class="btn btn-default" kk-tooltip data-trigger="hover" data-placement="bottom"
+                    data-title="{{title}}">bottom
+            </button>
+            <button class="btn btn-default" kk-tooltip data-trigger="click" data-placement="bottom"
+                    data-title="{{title}}">click
+            </button>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <h3>Typeahead</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="selectedState"
+                       data-placement="bottom-left" data-auto-select="true" data-limit="14"
+                       placeholder="输入一个字母后匹配"
+                       kk-options="state for state in states" kk-typeahead>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="selectedState"
+                       data-placement="bottom-left" data-auto-select="true" data-limit="14" data-min-length="0"
+                       placeholder="自动匹配"
+                       kk-options="state for state in states" kk-typeahead>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <h3>Select</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <label>Single select:&nbsp;</label>
+                <button type="button" class="btn btn-default" ng-model="selectedIcon"
+                        kk-options="icon.value as icon.label for icon in icons" kk-select
+                        data-html="1"
+                        data-trigger="click">
+                    Choose <span class="caret"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <h3>Popover</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <label>点击触发:&nbsp;</label>
+                <button type="button" class="btn btn-default" data-html="1" kk-popover="popover">
+                    button
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <h3>Popover Edit</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <label>点击修改:&nbsp;</label>
+                <span>
+                <a href="javascript:void(0)" class="editable editable-click" ng-model="popoverEdit"
+                   popover-title="title"
+                   kk-popover-edit>edit</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <h3>Modal</h3>
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-default" kk-modal data-html="1">普通modal</button>
+                <button class="btn btn-default" data-backdrop="false" kk-modal>无backdrop黑幕</button>
+                <button class="btn btn-default" data-placement="center"
+                        data-animation="am-fade" data-title="modal title"
+                        data-content="modal<br> content" data-html="1"
+                        data-container="html"
+                        kk-on-before-show="showModal(modalInfo)" kk-on-before-hide="showModal(modalInfo)"
+                        kk-on-show="showModal(modalInfo)" kk-on-hide="showModal(modalInfo)"
+                        kk-modal>绑定弹出事件Modal,绑定content,和title,指定container
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="hidden" kk--modal-loading data-id="10" data-backdropHideOnClick="false">
+        <div class="row">
+            <div class="col-sm-12">
+                <button ng-click="onModalClick()" class="btn btn-default">js控制弹出Modal</button>
+                <button ng-click="onModalLoadingClick()" class="btn btn-default">js控制弹出Loading,指定时间后消失</button>
+                <button ng-click="onEventLoadingClick()" class="btn btn-default">事件控制弹出对应Id的Loading</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <h3>Spin以及Slider</h3>
+        <section kk-spin="spinOptions"
+                 style="position: relative;width: 400px;height: 400px;display: inline-block;float: left;background: #333;border-radius: 10px;margin-right: 20px;"></section>
+        <div style="display: inline-block;width: 400px;">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Lines:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.lines" data-max-value="13"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Length:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.length" data-max-value="60"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Width:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.width" data-max-value="20"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Radius:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.radius" data-max-value="100"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Scale:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.scale" data-max-value="3" data-precesion="1"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Corners:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.corners" data-max-value="1" data-precesion="1"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label col-sm-5" style="line-height: 30px">
+                        Color:
+                    </label>
+                    <div class="col-sm-5">
+                        <input type="text" ng-model="spinOptions.color" class="form-control input-sm"
+                               placeholder="# 或者 rgba">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Opacity:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.opacity" data-max-value="1" data-precesion="2"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label" style="line-height: 30px">
+                            Direction:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input ng-model="spinOptions.direction" class="form-control input-sm" placeholder="选填 -1 或者 1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Left(相对于父容器,%):
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.left" data-max-value="100" data-precesion="1"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            Top(相对于父容器,%):
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.top" data-max-value="100" data-precesion="1"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">
+                            RepeatTime(s):
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span kk-slide data-value="spinOptions.repeatTime" data-max-value="4" data-precesion="2"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <h3>Tab</h3>
+        <div class="row">
+            <div class="col-sm-12">
+                <div kk-active-tab="tabs.activeTab" kk-tab-set>
+                    <div ng-repeat="tab in tabs" data-title="{{tab.title}}" data-name="{{tab.title}}"
+                         data-template="tab.template" ng-bind="tab.content" kk-tab></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <h3>Pagination</h3>
+        <h5>current=4,max=28,series=5</h5>
+        <kk-pagination ng-model="currentPage" data-total-items="totalItems" data-series="series"></kk-pagination>
+    </div>
+
+    <div class="form-group">
+        <h3>Form Validate</h3>
+    </div>
+    <div class="form-group">
+        <h3>FileUpload</h3>
+    </div>
+    <div class="form-group">
+        <h3>ImageCompress</h3>
+        <div class="row">
+            <div class="col-sm-2">
+                <label style="line-height: 34px">图片上传:</label>
+            </div>
+            <div class="col-sm-10">
+                <button class="btn btn-danger clearfix" kk-image-upload="cropOptions"
+                        data-compressed-image="cropOptions">上传图片
+                </button>
+            </div>
+            <!--<input type="file" accept="image/jpeg">-->
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">Quality</label>
+            <div class="col-sm-2">
+                <span kk-slide data-value="cropOptions.quality" data-max-value="100"></span>
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">压缩前大小:</label>
+            <div class="col-sm-2">
+                {{(cropOptions.size/1014).toFixed(2)||0}} KB
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">压缩后大小:</label>
+            <div class="col-sm-2">
+                {{(cropOptions.compressedSize/1024).toFixed(2)||0}} KB
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 200px">
+            <div class="col-md-6">
+                <div style="border: 1px solid #eee;min-height: 300px;" kk-image-crop>
+                    <img ng-src="{{cropOptions.file}}" style="width: 100%;user-select:none;" draggable="false">
+                </div>
+                <!--<img class="thumbnail" src="resources/img/huakai.jpg" style="height: 300px">-->
+            </div>
+            <div class="col-md-6">
+                <div style="border: 1px solid #eee;min-height: 300px;">
+                    <img ng-src="{{cropOptions.compressed}}" style="width: 100%">
+                </div>
+                <!--<img class="thumbnail" style="height: 100px" src="resources/img/huakai.jpg">-->
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="dist/js/angular.min.js"></script>
+<script src="resources/js/angular-animate.js"></script>
+<script src="dist/js/angular-strap-extension.js"></script>
+<script src="resources/js/typeahead/typeahead.js"></script>
+<script>
+    function log(data) {
+        console.log(JSON.stringify(data))
+    }
+</script>
+
+
+</html>
