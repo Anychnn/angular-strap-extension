@@ -32,7 +32,6 @@ $RECYCLE.BIN/
 ._*
 .idea
 /node_modules/*
-
 !/node_modules/bootstrap/dist/
 !/node_modules/angular-motion/dist/
 !/node_modules/bootstrap-additions/dist/
