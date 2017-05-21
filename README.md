@@ -1,7 +1,7 @@
 # angular-strap-extension
 angular-strap-extension
 
-[Demo](index.html)
+[Demo](https://anychnn.github.io/angular-strap-extension/index.html)
 
 对angularstrap的部分重写以及新增部分功能
 
