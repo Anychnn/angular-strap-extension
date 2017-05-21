@@ -27,6 +27,7 @@
     "stream-combiner2": "^1.1.1"
   },
   "devDependencies": {
+    "angular-motion": "^0.4.4",
     "angular-strap": "^2.3.12",
     "angular-ui-bootstrap": "^2.5.0",
     "bootstrap-editable": "^1.0.1",
