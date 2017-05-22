@@ -1776,7 +1776,8 @@
                     var cropHeight = 200;
                     scope.cropFile = null;
                     element.css("position", "relative");
-                    var cropElement = (angular.element('<div class="crop-box" style="position: absolute;top:20px;left:20px;width: ' + cropWidth + 'px;height: ' + cropHeight + 'px;" draggable="false"> ' +
+                    var cropElement = (angular.element('<div class="crop-box" ' +
+                        'style="position: absolute;top:20px;left:20px;width: ' + cropWidth + 'px;height: ' + cropHeight + 'px;" draggable="false" ondragstart="return false;"> ' +
                         '<span class="crop-line-x"></span><span class="crop-line-y"></span></div>'))
                     element.append(cropElement);
                     var move = false;
