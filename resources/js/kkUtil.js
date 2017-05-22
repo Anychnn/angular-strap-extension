@@ -1703,7 +1703,8 @@
                 scope: false,
                 link: function (scope, element, attr) {
                     var cropOptions = scope.$eval(attr.kkImageUpload);
-                    element.prop("style", "position:relative");
+                    // element.prop("style", "position:relative");
+                    element[0].style.position="relative";
                     var formElement = element.find('form');
                     var inputElement = element.find('input');
 
