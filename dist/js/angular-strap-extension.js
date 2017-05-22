@@ -1756,8 +1756,8 @@
                 //     $timeout.cancel(timer);
                 // }
                 // $timeout(function () {
-                    var croppedImageData = cvs.toDataURL(mime_type, 0.5);
-                    deferred.resolve(croppedImageData);
+                var croppedImageData = cvs.toDataURL(mime_type, 0.5);
+                deferred.resolve(croppedImageData);
                 // },delay);
                 return deferred.promise;
             }
@@ -1841,7 +1841,7 @@
                             // count++;
                             // if(count==100){
                             //     count=0;
-                                cropPic();
+                            cropPic();
                             // }
                             // if(timer){
                             //     $timeout.cancel(timer);

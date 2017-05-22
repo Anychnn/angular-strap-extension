@@ -53,8 +53,6 @@
   cursor: pointer; }
 
 .crop-box {
-  width: 200px;
-  height: 200px;
   display: inline-block;
   outline: #69f solid 1px;
   cursor: move; }
@@ -83,4 +81,4 @@
   opacity: .5;
   box-sizing: border-box; }
 
-/*# sourceMappingURL=kkangular-strap-extension.csstension.css.map */
+/*# sourceMappingURL=angular-strap-extension.css.map */
