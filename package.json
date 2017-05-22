@@ -27,10 +27,13 @@
     "stream-combiner2": "^1.1.1"
   },
   "devDependencies": {
+    "angular": "^1.5.8",
     "angular-motion": "^0.4.4",
     "angular-strap": "^2.3.12",
     "angular-ui-bootstrap": "^2.5.0",
+    "bootstrap-additions": "^0.3.1",
     "bootstrap-editable": "^1.0.1",
+    "font-awesome": "^4.7.0",
     "gulp-concat": "^2.6.1",
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.2.2",

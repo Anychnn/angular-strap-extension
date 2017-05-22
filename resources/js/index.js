@@ -58,17 +58,17 @@ main.controller("testController",function ($scope,$timeout,$modal,$modalLoading)
     }
 
     $scope.spinOptions={
-        lines: 11
-        , length: 6
-        , width: 20
-        , radius: 20
+        lines: 12
+        , length: 38
+        , width: 6
+        , radius: 28
         , scale: 1.75
         , corners: 1
         , color: 'rgb(255, 255, 255)'
         , opacity: 0.25
         , rotate: 0
         , direction: 1 // 1: 顺时针, -1: 逆时针
-        , repeatTime: 1 // 每一轮的时间
+        , repeatTime: 0.75 // 每一轮的时间
         , top: 50
         , left: 50
         , position: 'absolute'
@@ -101,12 +101,13 @@ main.controller("testController",function ($scope,$timeout,$modal,$modalLoading)
 
     $scope.totalItems = 28;
     $scope.currentPage = 4;
-    $scope.series = 10;
+    $scope.series = 5;
 
 
-    $scope.cropOptions={
+    $scope.fileCompressOptions={
         file:null,
-        compressed:null,
+        compressed:null,    //经过压缩的文件
+        cropped:null,   //经过裁剪的文件
         rotate:null,
         quality:100,//压缩比  总数100
         size:0,
@@ -114,7 +115,10 @@ main.controller("testController",function ($scope,$timeout,$modal,$modalLoading)
         onError:function (type) {
             console.log("error: "+ type);
         }
+    };
 
+    $scope.cropOptions={
+        // file:
     };
 
 })

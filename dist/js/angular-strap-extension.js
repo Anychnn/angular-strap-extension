@@ -402,7 +402,7 @@
                 }
             }
         }])
-        .run(['$templateCache',function ($templateCache) {
+        .run(['$templateCache', function ($templateCache) {
             $templateCache.put('kk/typehead.tpl.html',
                 '<ul tabindex="-1" class="typeahead dropdown-menu" ng-show="$isVisible()" role="select">' +
                 '<li role="presentation" ng-repeat="match in $matches" ng-class="{active: $index == $activeIndex}">' +
@@ -561,7 +561,7 @@
                 }
             }
         }])
-        .run(['$templateCache',function ($templateCache) {
+        .run(['$templateCache', function ($templateCache) {
             $templateCache.put('kk/popover.tpl.html',
                 '<div class="popover">' +
                 '<div class="arrow"></div>' +
@@ -861,7 +861,7 @@
                 }
             }
         }])
-        .run(['$templateCache',function ($templateCache) {
+        .run(['$templateCache', function ($templateCache) {
             $templateCache.put('kk/modal.tpl.html',
                 '<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">' +
                 '<div class="modal-dialog">' +
@@ -1040,7 +1040,7 @@
                 }
             }
         }])
-        .run(['$templateCache',function ($templateCache) {
+        .run(['$templateCache', function ($templateCache) {
             $templateCache.put('kk/slider.tpl.html',
                 '<span class="kk-slider">' +
                 '<span class="kk-slider-range"></span>' +
@@ -1317,7 +1317,7 @@
                 }
             }
         }])
-        .run(['$templateCache',function ($templateCache) {
+        .run(['$templateCache', function ($templateCache) {
             $templateCache.put('kk/tooltip.tpl.html',
                 '<div class="tooltip in" ng-show="title">' +
                 '<div class="tooltip-arrow"></div>' +
@@ -1688,15 +1688,6 @@
                 return newImageData;
             }
         })
-        .provider('$imageCrop', function () {
-            this.$get = [function () {
-                function ImageCropFactory() {
-
-                }
-
-                return ImageCropFactory;
-            }]
-        })
         .directive("kkImageUpload", ['$parse', '$imageCompress', function ($parse, $imageCompress) {
             var defaults = {
                 quality: 50
@@ -1747,76 +1738,140 @@
                 }
             }
         }])
-        .directive('kkImageCrop', ['$document',function ($document) {
+        .service('$imageCrop', ['$q','$timeout',function ($q,$timeout) {
+            var cvs = document.createElement("canvas");
+            var timer;
+            var delay=30;
+            this.crop = function (sourceImage, offsetLeft, offsetTop, cropWidth, cropHeight, containerWidth, containerHeight) {
+                var deferred=$q.defer();
+                var mime_type = "image/jpeg";
+                var dx=sourceImage.naturalWidth/containerWidth;
+                var dy=sourceImage.naturalHeight/containerHeight;
+                cvs.width = containerWidth;
+                cvs.height = containerHeight;
+                // console.log(dx)
+                // cvs.getContext("2d").drawImage(image,offsetLeft,offsetTop,cropWidth,cropHeight,0,0,image.naturalWidth,image.naturalHeight);
+                cvs.getContext("2d").drawImage(sourceImage, offsetLeft*dx, offsetTop*dy, cropWidth*dx, cropHeight*dy, 0, 0, containerWidth, containerHeight);
+                // if(timer){
+                //     $timeout.cancel(timer);
+                // }
+                // $timeout(function () {
+                    var croppedImageData = cvs.toDataURL(mime_type, 0.5);
+                    deferred.resolve(croppedImageData);
+                // },delay);
+                return deferred.promise;
+            }
+        }])
+        //图片裁剪
+        .directive('kkImageCrop', ['$document', '$imageCrop','$timeout', function ($document, $imageCrop,$timeout) {
             return {
                 restrict: 'EA',
+                templateUrl: 'kk/imageCrop.tpl.html',
                 link: function (scope, element, attr) {
+                    var imageUpload = scope.$eval(attr.kkImageCrop);
+                    //设置最小延迟  减少加载次数 消除由于频繁对图片进行裁剪造成的页面卡顿问题
+                    var timer;
+                    var count=0;
+                    var cropWidth = 200;
+                    var cropHeight = 200;
+                    scope.cropFile = null;
                     element.css("position", "relative");
-                    var cropElement = (angular.element('<div class="crop-box" style="position: absolute;top:20px;left:20px;"> <span class="crop-line-x"></span><span class="crop-line-y"></span></div>'))
+                    var cropElement = (angular.element('<div class="crop-box" style="position: absolute;top:20px;left:20px;width: ' + cropWidth + 'px;height: ' + cropHeight + 'px;"> ' +
+                        '<span class="crop-line-x"></span><span class="crop-line-y"></span></div>'))
                     element.append(cropElement);
                     var move = false;
-                    var outerX;
-                    var outerY;
-                    var offsetX;
-                    var offsetY;
+                    var startX;
+                    var startY;
+                    var endX=20;
+                    var endY=20;
+                    var offsetX = cropElement[0].offsetLeft;
+                    var offsetY = cropElement[0].offsetTop;
+                    var fileOption;
+                    var cropSourceImage=new Image();
+                    function cropPic() {
+                        var containerWidth = element[0].offsetWidth;
+                        var containerHeight = element[0].offsetHeight;
+                        var promise = $imageCrop.crop(cropSourceImage, endX, endY, cropWidth, cropHeight, containerWidth, containerHeight);
+                        promise.then(function (data) {
+                            fileOption.cropped = data;
+                            safeDigest(scope);
+                        })
+                    }
+                    //监听文件变化 如果文件发生变化 进行裁剪
+                    scope.$watch(attr.kkImageCrop, function (newVal, oldVal) {
+                        if(newVal.file){
+                            scope.cropFile = newVal.file;
+                            cropSourceImage.src=newVal.file;
+                            fileOption=newVal;
+                            cropPic();
+                        }
+                    }, true);
+
+                    //监听鼠标点击事件  开始移动裁剪框
                     cropElement.on('mousedown', function (evt) {
                         move = true;
-                        outerX = evt.clientX;
-                        outerY = evt.clientY;
+                        startX = evt.clientX;
+                        startY = evt.clientY;
                         offsetX = cropElement[0].offsetLeft;
                         offsetY = cropElement[0].offsetTop;
-                        console.log(outerX)
-                        console.log(outerY)
                     })
-                    var flag=true;
                     cropElement.on('mousemove', function (evt) {
                         if (move) {
-                            var moveX = evt.clientX - outerX;
-                            var moveY = evt.clientY - outerY;
-                            var endX = offsetX + moveX;
-                            var endY = offsetY + moveY;
-                            if(flag){
-                                flag=false;
-                                console.log(offsetX)
-                                console.log(offsetY)
+                            var dx = evt.clientX - startX;
+                            var dy = evt.clientY - startY;
+                            endX = offsetX + dx;
+                            endY = offsetY + dy;
+                            if (endX < 0) {
+                                endX = 0;
                             }
-                            if(endX<0){
-                                endX=0;
+                            else if (endX + cropElement[0].clientWidth > element[0].clientWidth) {
+                                endX = element[0].clientWidth - cropElement[0].clientWidth;
                             }
-                            else if(endX+cropElement[0].clientWidth>element[0].clientWidth){
-                                endX=element[0].clientWidth-cropElement[0].clientWidth;
+                            if (endY < 0) {
+                                endY = 0;
                             }
-                            if(endY<0){
-                                endY=0;
-                            }
-                            else if(endY+cropElement[0].clientHeight>element[0].clientHeight){
-                                endY=element[0].clientHeight-cropElement[0].clientHeight;
+                            else if (endY + cropElement[0].clientHeight > element[0].clientHeight) {
+                                endY = element[0].clientHeight - cropElement[0].clientHeight;
                             }
                             cropElement.css({
-                                top: endY+"px",
-                                left: endX+"px"
+                                top: endY + "px",
+                                left: endX + "px"
                             })
+                            //对图片进行裁剪
+                            // count++;
+                            // if(count==100){
+                            //     count=0;
+                                cropPic();
+                            // }
+                            // if(timer){
+                            //     $timeout.cancel(timer);
+                            // }
+                            // timer=$timeout(function () {
+                            //     cropPic(fileOption);
+                            // },delay);
                         }
                     })
                     $document.on('mouseup', function (evt) {
-                        console.log("up")
-                        move = false;
+                        if(move){
+                            move = false;
+                        }
                     })
                 }
             }
         }])
+        .run(['$templateCache', function ($templateCache) {
+            $templateCache.put('kk/imageCrop.tpl.html',
+                '<img ng-src="{{cropFile}}" style="width: 100%;user-select:none;" draggable="false" ondragstart="return false;">');
+        }]);
 
     //表格 数据 搜索功能
     //select 加入分行hr功能 还可以有小箭头
     //进度条
-    //模态框
     //流程图  进度图
 
     //github上面的日期频率图
-    //图片压缩
     //图片懒加载
     //时间轴
-
 
     function safeDigest(scope) {
         scope.$$phase || scope.$root && scope.$root.$$phase || scope.$digest();

@@ -14,6 +14,9 @@ gulp.task('default', function () {
     // gutil.log(gutil.colors.green('message:') + "some");
 
     //合并   混淆js
+    gulp.src(['node_modules/angular/**/*','node_modules/angular-motion/**/*','node_modules/bootstrap/**/*','node_modules/bootstrap-additions/**/*','node_modules/bootstrap-editable/**/*','node_modules/font-awesome/**/*'],{base:'node_modules'})
+        .pipe(gulp.dest('plugin'));
+
     gulp.src(['resources/js/kkUtil.js'])
         .pipe(concat('angular-strap-extension.js'))
         .pipe(gulp.dest("dist/js"))

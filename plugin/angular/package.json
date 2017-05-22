@@ -10,7 +10,7 @@
         "spec": "1.5.8",
         "type": "version"
       },
-      "E:\\web\\blog"
+      "E:\\web\\angular-strap-extension"
     ]
   ],
   "_from": "angular@1.5.8",
@@ -39,13 +39,13 @@
   },
   "_requiredBy": [
     "#USER",
-    "/angular-ui-router"
+    "/"
   ],
   "_resolved": "https://registry.npmjs.org/angular/-/angular-1.5.8.tgz",
   "_shasum": "925a5392b8c212d09572dc446db7e01264e094cb",
   "_shrinkwrap": null,
   "_spec": "angular@1.5.8",
-  "_where": "E:\\web\\blog",
+  "_where": "E:\\web\\angular-strap-extension",
   "author": {
     "name": "Angular Core Team",
     "email": "angular-core+npm@google.com"

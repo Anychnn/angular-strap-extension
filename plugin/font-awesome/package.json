@@ -10,7 +10,7 @@
         "spec": "latest",
         "type": "tag"
       },
-      "E:\\web\\kkangularstrap"
+      "E:\\web\\angular-strap-extension"
     ]
   ],
   "_from": "font-awesome@latest",
@@ -38,13 +38,14 @@
     "type": "tag"
   },
   "_requiredBy": [
+    "#DEV:/",
     "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/font-awesome/-/font-awesome-4.7.0.tgz",
   "_shasum": "8fa8cf0411a1a31afd07b06d2902bb9fc815a133",
   "_shrinkwrap": null,
   "_spec": "font-awesome",
-  "_where": "E:\\web\\kkangularstrap",
+  "_where": "E:\\web\\angular-strap-extension",
   "author": {
     "name": "Dave Gandy",
     "email": "dave@fontawesome.io",

@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="main">
+<html lang="zh-ch" ng-app="main">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="plugin/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="plugin/angular-motion/dist/angular-motion.css">
-    <link rel="stylesheet" href="plugin/bootstrap-additions/dist/bootstrap-additions.css">
-    <link rel="stylesheet" href="plugin/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="plugin/bootstrap-editable/css/bootstrap-editable.css">
+    <title>Angular-strap-extension</title>
+    <link rel="stylesheet" href="1/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="1/angular-motion/dist/angular-motion.css">
+    <link rel="stylesheet" href="1/bootstrap-additions/dist/bootstrap-additions.css">
+    <link rel="stylesheet" href="1/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="1/bootstrap-editable/css/bootstrap-editable.css">
+
+
+    <!--<link rel="stylesheet" href="plugin/bootstrap/dist/css/bootstrap.css">-->
+    <!--<link rel="stylesheet" href="plugin/angular-motion/dist/angular-motion.css">-->
+    <!--<link rel="stylesheet" href="plugin/bootstrap-additions/dist/bootstrap-additions.css">-->
+    <!--<link rel="stylesheet" href="plugin/font-awesome/css/font-awesome.css">-->
+    <!--<link rel="stylesheet" href="plugin/bootstrap-editable/css/bootstrap-editable.css">-->
+    <link rel="stylesheet" href="dist/css/angular-strap-extension.css">
 
     <!--<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">-->
     <!--<link rel="stylesheet" href="node_modules/angular-motion/dist/angular-motion.css">-->
     <!--<link rel="stylesheet" href="node_modules/bootstrap-additions/dist/bootstrap-additions.css">-->
     <!--<link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">-->
     <!--<link rel="stylesheet" href="node_modules/bootstrap-editable/css/bootstrap-editable.css">-->
-    <!--<link rel="stylesheet" href="dist/css/angular-strap-extension.css">-->
+
 
     <style>
         *{
@@ -66,7 +74,7 @@
 <body>
 
 <div ng-controller="testController" style="padding:50px;" class="container-fluid">
-    <h1>kkAngularStrap</h1>
+    <h1>Angular-strap-extension</h1>
     <hr>
     <div class="form-group">
         <h3>Tooltip</h3>
@@ -334,18 +342,16 @@
     <div class="form-group">
         <h3>Form Validate</h3>
     </div>
+
     <div class="form-group">
-        <h3>FileUpload</h3>
-    </div>
-    <div class="form-group">
-        <h3>ImageCompress</h3>
+        <h3>ImageCompress And Crop</h3>
         <div class="row">
             <div class="col-sm-2">
                 <label style="line-height: 34px">图片上传:</label>
             </div>
             <div class="col-sm-10">
-                <button class="btn btn-danger clearfix" kk-image-upload="cropOptions"
-                        data-compressed-image="cropOptions">上传图片
+                <button class="btn btn-danger clearfix" kk-image-upload="fileCompressOptions"
+                        data-compressed-image="fileCompressOptions">上传图片
                 </button>
             </div>
             <!--<input type="file" accept="image/jpeg">-->
@@ -353,33 +359,33 @@
         <div class="row">
             <label class="control-label col-sm-2">Quality</label>
             <div class="col-sm-2">
-                <span kk-slide data-value="cropOptions.quality" data-max-value="100"></span>
+                <span kk-slide data-value="fileCompressOptions.quality" data-max-value="100"></span>
             </div>
         </div>
         <div class="row">
             <label class="control-label col-sm-2">压缩前大小:</label>
             <div class="col-sm-2">
-                {{(cropOptions.size/1014).toFixed(2)||0}} KB
+                {{(fileCompressOptions.size/1014).toFixed(2)||0}} KB
             </div>
         </div>
         <div class="row">
             <label class="control-label col-sm-2">压缩后大小:</label>
             <div class="col-sm-2">
-                {{(cropOptions.compressedSize/1024).toFixed(2)||0}} KB
+                {{(fileCompressOptions.compressedSize/1024).toFixed(2)||0}} KB
             </div>
         </div>
         <div class="row" style="margin-bottom: 200px">
-            <div class="col-md-6">
-                <div style="border: 1px solid #eee;min-height: 300px;" kk-image-crop>
-                    <img ng-src="{{cropOptions.file}}" style="width: 100%;user-select:none;" draggable="false">
+            <div class="col-md-5">
+                <div style="border: 1px solid #eee;min-height: 300px;" kk-image-crop="fileCompressOptions">
                 </div>
-                <!--<img class="thumbnail" src="resources/img/huakai.jpg" style="height: 300px">-->
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div style="border: 1px solid #eee;min-height: 300px;">
-                    <img ng-src="{{cropOptions.compressed}}" style="width: 100%">
+                    <img ng-src="{{fileCompressOptions.compressed}}" style="width: 100%">
                 </div>
-                <!--<img class="thumbnail" style="height: 100px" src="resources/img/huakai.jpg">-->
+            </div>
+            <div class="col-md-2">
+                    <img ng-src="{{fileCompressOptions.cropped}}" style="width: 200px;height: 200px">
             </div>
         </div>
     </div>
@@ -389,7 +395,7 @@
 <script src="dist/js/angular.min.js"></script>
 <script src="resources/js/angular-animate.js"></script>
 <script src="dist/js/angular-strap-extension.js"></script>
-<script src="resources/js/typeahead/typeahead.js"></script>
+<script src="resources/js/index.js"></script>
 <script>
     function log(data) {
         console.log(JSON.stringify(data))

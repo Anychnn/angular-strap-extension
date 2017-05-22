@@ -28022,6 +28022,7 @@ var ngModelDirective = ['$rootScope', function($rootScope) {
     compile: function ngModelCompile(element) {
       // Setup initial state of the control
       element.addClass(PRISTINE_CLASS).addClass(UNTOUCHED_CLASS).addClass(VALID_CLASS);
+
       return {
         pre: function ngModelPreLink(scope, element, attr, ctrls) {
           var modelCtrl = ctrls[0],

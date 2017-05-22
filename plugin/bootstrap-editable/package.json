@@ -2,18 +2,18 @@
   "_args": [
     [
       {
-        "raw": "bootstrap-editable",
+        "raw": "bootstrap-editable@^1.0.1",
         "scope": null,
         "escapedName": "bootstrap-editable",
         "name": "bootstrap-editable",
-        "rawSpec": "",
-        "spec": "latest",
-        "type": "tag"
+        "rawSpec": "^1.0.1",
+        "spec": ">=1.0.1 <2.0.0",
+        "type": "range"
       },
-      "E:\\web\\kkangularstrap"
+      "E:\\web\\angular-strap-extension"
     ]
   ],
-  "_from": "bootstrap-editable@latest",
+  "_from": "bootstrap-editable@>=1.0.1 <2.0.0",
   "_id": "bootstrap-editable@1.0.1",
   "_inCache": true,
   "_location": "/bootstrap-editable",
@@ -29,23 +29,22 @@
   "_npmVersion": "4.1.1",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "bootstrap-editable",
+    "raw": "bootstrap-editable@^1.0.1",
     "scope": null,
     "escapedName": "bootstrap-editable",
     "name": "bootstrap-editable",
-    "rawSpec": "",
-    "spec": "latest",
-    "type": "tag"
+    "rawSpec": "^1.0.1",
+    "spec": ">=1.0.1 <2.0.0",
+    "type": "range"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/bootstrap-editable/-/bootstrap-editable-1.0.1.tgz",
   "_shasum": "445a671b5ab5fed77e8c7f4e5ffbc796c60b5023",
   "_shrinkwrap": null,
-  "_spec": "bootstrap-editable",
-  "_where": "E:\\web\\kkangularstrap",
+  "_spec": "bootstrap-editable@^1.0.1",
+  "_where": "E:\\web\\angular-strap-extension",
   "author": {
     "name": "Barış Bora"
   },
